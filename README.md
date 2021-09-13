@@ -1,5 +1,5 @@
 # AlgoLabs
-### [1]Task realize sorting algo`s:
+### [1]Task realize sorting algo`s + test:
 - HeapSort AKA hs
 - MergeSort AKA ms
 - QuickSort AKA qs
