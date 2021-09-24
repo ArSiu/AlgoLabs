@@ -1,6 +1,11 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Tree {
     Node root;
     int size;
+    ArrayList<String> a = new ArrayList<>();
+
 
     public void search(int value) {
         Node currentNode = search(value,root);
@@ -51,9 +56,63 @@ public class Tree {
         }
     }
 
+    public void deleteElem(int value){
+        deleteRoot(value,root);
+    }
+
+    private Node deleteRoot(int value,Node leaf){
+        if(leaf == null) {
+            return leaf;
+        } else {
+            leaf.left = deleteRoot(value,leaf.left);
+            leaf.right = deleteRoot(value,leaf.right);
+        }
+
+        if(leaf.value == value) {
+            if(leaf.left == null) {
+                Node temp = leaf.right;
+                leaf = null;
+                return temp;
+            }else if(leaf.right == null){
+                Node temp = leaf.left;
+                leaf = null;
+                return temp;
+            }
+            Node temp = minValueNode(leaf.right);
+            leaf.value = temp.value;
+            leaf.right = deleteRoot(temp.value,leaf.right);
+        }
+        return leaf;
+    }
+
+    private Node minValueNode(Node leaf) {
+        Node current = leaf;
+        while (current!=null && current.left !=null){
+            current = current.left;
+        }
+        return current;
+    }
+
+
     public void print() {
         print(root,size);
+        printInorder(root);
+
     }
+
+    void printInorder(Node node)
+    {
+        if (node == null)
+            return;
+
+        printInorder(node.right);
+        System.out.print(node.value);
+        printInorder(node.left);
+
+
+    }
+
+
 
     private void print(Node currentNode, int amountOfSpace) {
         if(currentNode == null){
