@@ -41,7 +41,7 @@ public class Tree {
                 currentNode.left = new Node(value);
                 size++;
             }
-        }else {
+        }else if(value > currentNode.value) {
             if(currentNode.right != null) {
                 add(value, currentNode.right);
             }else {
