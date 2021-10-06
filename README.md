@@ -17,8 +17,7 @@ java -cp C:\Users\ars\Desktop\JUNIT\junit-4.10.jar org.junit.runner.JUnitCore Ca
 ## hOW tO rUn test
 download junit.jar(https://sourceforge.net/projects/junit/)
 ```
-java -cp C:\Users\ars\Desktop\JUNIT\junit-4.10.jar org.junit.runner.JUnitCore CalendarTest.java
-$ java Calendar.java (0,1),(3,5),(4,8),(10,12),(9,10)
+$java -cp C:\Users\ars\Desktop\JUNIT\junit-4.10.jar org.junit.runner.JUnitCore CalendarTest.java
 ```
 ## Output
 ```
