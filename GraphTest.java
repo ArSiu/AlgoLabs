@@ -3,8 +3,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GraphTest {
-    public Graph graph;
-    public DepthFirstSearch dfs;
+    private Graph graph;
+    private DepthFirstSearch dfs;
 
     @Before
     public void init() {
@@ -34,17 +34,17 @@ public class GraphTest {
     }
 
     @Test
-    public void testDepthFirstSearch() {
+    public void testDepthFirstTraversal() {
         Assert.assertEquals("[2, 5, 4, 3]", dfs.depthFirstTraversal(graph, 2).toString());
     }
 
     @Test
-    public void testBreadthFirstTraversal() {
-        Assert.assertEquals("[2, 3, 4, 5]", dfs.breadthFirstTraversal(graph, 2).toString());
+    public void testDepthFirstSearch() {
+        Assert.assertTrue(dfs.depthFirstSearch(graph,2,5));
+        graph.removeEdge(3);
+        graph.removeVertex(3);
+        Assert.assertFalse(dfs.depthFirstSearch(graph,3,5));
     }
-
-
-
 
 
 

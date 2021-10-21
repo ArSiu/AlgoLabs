@@ -17,15 +17,11 @@ public class Main {
         g.removeEdge(3);
         g.removeVertex(3);
 
-        System.out.println(g.getAdjVertices(2));
-
-        System.out.println(g.printGraph());
+        System.out.println("Get all edges of vertex 2: " + g.getAdjVertices(2));
+        System.out.println("Prints value of vertex and its edges: " + g.printGraph());
         Set<Integer> a = dfs.depthFirstTraversal(g,2);
-        System.out.println(a);
-        for (Integer t: a) {
-            System.out.print(t);
-        }
-
+        System.out.println("Get all vertexes that can be reached from vertex 2: "+a);
+        System.out.println("has 5: "+dfs.depthFirstSearch(g,5,2));
 
     }
 }

@@ -2,6 +2,11 @@ import java.util.*;
 
 public class Graph {
     private Map<Integer, List<Vertex>> adjVertices;
+    public int size = 0;
+
+    public Map<Integer, List<Vertex>> getAdjVertices() {
+        return adjVertices;
+    }
 
     public Graph() {
         this.adjVertices = new HashMap<Integer, List<Vertex>>();
@@ -11,6 +16,7 @@ public class Graph {
         if (adjVertices.get(label) == null) {
             List<Vertex> temp = new ArrayList<>();
             adjVertices.put(label,temp);
+            size++;
         }
     }
 
@@ -18,6 +24,7 @@ public class Graph {
         Vertex v = new Vertex(label);
         adjVertices.values().stream().forEach(e -> e.remove(v));
         adjVertices.remove(label);
+        size--;
     }
 
     public void addEdge(Integer label1, Integer label2) {
