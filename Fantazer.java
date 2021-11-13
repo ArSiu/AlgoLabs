@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.Math;
 
 public class Fantazer {
 
@@ -10,35 +9,51 @@ public class Fantazer {
         System.out.println(a);
     }
 
-    public List<String> findMinBin(String binary,int number) {
+    public List<String> findMinBin(String binary, int number) {
         List<String> part = new ArrayList<>();
-        List<String> pows = new ArrayList<>();
-        String maxLong = Long.toBinaryString(Long.MAX_VALUE);
+        List<String> pows = findPowers(binary, number);
+        int maxPowLength = binary.length();
 
-        String bin = "";
-        for (int i = 0; bin.length()<=binary.length(); i++) {
-            if(bin.equals(maxLong)){
-                break;
-            }
-            bin = Long.toBinaryString((long) Math.pow(number,i));
-            pows.add(bin);
+        if(binary.length() > 62){
+            maxPowLength = pows.get(0).length();
         }
-        pows.sort((String a, String b)-> b.length() - a.length());
 
         int lastIndex = 0;
-        for (int currentIndex = binary.length(); lastIndex < binary.length(); currentIndex--) {
-            String current = binary.substring(lastIndex,currentIndex).replaceAll("^0*","");
-            for (String bins:pows) {
-                if(current.equals(bins)){
+        for (int currentIndex = maxPowLength; lastIndex < binary.length(); currentIndex--) {
+
+            String current = binary.substring(lastIndex, currentIndex).replaceAll("^0*", "");
+            if(current.equals("")){
+                break;
+            }
+            for (String bins : pows) {
+                if (current.equals(bins)) {
                     part.add(current);
-                    lastIndex=currentIndex;
-                    currentIndex=binary.length()+1;
+                    lastIndex = currentIndex;
+                    currentIndex += maxPowLength;
+                    if(currentIndex > binary.length()){
+                        currentIndex = binary.length()+1;
+                    }
                     break;
                 }
             }
         }
-
         return part;
+    }
+
+    private List<String> findPowers(String binary, int number) {
+        List<String> pows = new ArrayList<>();
+        String maxLong = Long.toBinaryString(Long.MAX_VALUE);
+        String bin = "";
+
+        for (int i = 0; bin.length() <= binary.length(); i++) {
+            if (bin.equals(maxLong)) {
+                break;
+            }
+            bin = Long.toBinaryString((long) Math.pow(number, i));
+            pows.add(bin);
+        }
+        pows.sort((String a, String b) -> b.length() - a.length());
+        return pows;
     }
 
 }
