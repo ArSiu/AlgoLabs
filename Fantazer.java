@@ -5,55 +5,45 @@ public class Fantazer {
 
     public static void main(String[] args) {
         Fantazer fantazer = new Fantazer();
-        List<String> a = fantazer.findMinBin(args[0],Integer.parseInt(args[1]));
+        int a = fantazer.findMinBin(args[0], Integer.parseInt(args[1]));
         System.out.println(a);
     }
 
-    public List<String> findMinBin(String binary, int number) {
-        List<String> part = new ArrayList<>();
-        List<String> pows = findPowers(binary, number);
-        int maxPowLength = binary.length();
-
-        if(binary.length() > 62){
-            maxPowLength = pows.get(0).length();
+    public int findMinBin(String binary, int number) {
+        List<Integer> part = new ArrayList<>();
+        for (int i = 0; i < binary.length() + 1; i++) {
+            part.add(i, binary.length() + 1);
         }
+        part.set(0, 0);
 
-        int lastIndex = 0;
-        for (int currentIndex = maxPowLength; lastIndex < binary.length(); currentIndex--) {
-
-            String current = binary.substring(lastIndex, currentIndex).replaceAll("^0*", "");
-            if(current.equals("")){
-                break;
+        for (int currentIndex = 1; currentIndex <= binary.length(); currentIndex++) {
+            if (binary.charAt(currentIndex - 1) == '0') {
+                continue;
             }
-            for (String bins : pows) {
-                if (current.equals(bins)) {
-                    part.add(current);
-                    lastIndex = currentIndex;
-                    currentIndex += maxPowLength;
-                    if(currentIndex > binary.length()){
-                        currentIndex = binary.length()+1;
-                    }
-                    break;
+            for (int lastIndex = 0; lastIndex < currentIndex; lastIndex++) {
+                if (binary.charAt(lastIndex) == '0') {
+                    continue;
                 }
+                String current = binary.substring(lastIndex, currentIndex);
+                if (!isPowerOfNumber(Long.parseLong(current, 2), number)) {
+                    continue;
+                }
+                part.set(currentIndex, Math.min(part.get(currentIndex), part.get(lastIndex) + 1));
             }
         }
-        return part;
+        if (part.get(binary.length()) < binary.length() + 1) {
+            return part.get(binary.length());
+        }
+        return -1;
     }
 
-    private List<String> findPowers(String binary, int number) {
-        List<String> pows = new ArrayList<>();
-        String maxLong = Long.toBinaryString(Long.MAX_VALUE);
-        String bin = "";
-
-        for (int i = 0; bin.length() <= binary.length(); i++) {
-            if (bin.equals(maxLong)) {
-                break;
-            }
-            bin = Long.toBinaryString((long) Math.pow(number, i));
-            pows.add(bin);
+    public boolean isPowerOfNumber(Long numToCheck, int number) {
+        if (numToCheck == 0) {
+            return false;
         }
-        pows.sort((String a, String b) -> b.length() - a.length());
-        return pows;
+        Long power = Math.round((Math.log(numToCheck) / Math.log(number)));
+        power = Math.round(Math.pow(number, power));
+        return power.equals(numToCheck);
     }
 
 }
