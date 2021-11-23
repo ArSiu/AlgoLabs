@@ -1,3 +1,8 @@
+package com.arsiu;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class RabinKarp {
     private final int asciiChars = 256;
     private final int prime = Integer.MAX_VALUE;
@@ -8,10 +13,16 @@ public class RabinKarp {
     private int hashOfPattern;
     private int hashOfText;
     private int valueOfHashFunc;
+    private List<Integer> matches;
 
     public static void main(String[] args) {
         RabinKarp r = new RabinKarp();
-        r.search("ejrwkejrwkeqjrowjerowjerwo213erow123pejrwoeqrk","erow");
+        r.search("ejrwkejrwkeqjrowjerowjerwo213erow123pejrwoeqrk", "erow");
+        System.out.println("Matches at indexes: " + r.getMatches());
+    }
+
+    public List<Integer> getMatches() {
+        return matches;
     }
 
     public void search(String text, String pattern) {
@@ -22,19 +33,19 @@ public class RabinKarp {
         hashOfText = 0;
         hashOfPattern = 0;
         valueOfHashFunc = 1;
-
+        matches = new ArrayList<>();
         hashFunc();
         findHashes();
-
         for (int i = 0; i <= lenOfText - lenOfPattern; i++) {
             if (hashOfPattern == hashOfText) {
                 int amountOfElem;
                 for (amountOfElem = 0; amountOfElem < lenOfPattern; amountOfElem++) {
-                    if (text.charAt(i + amountOfElem) != pattern.charAt(amountOfElem))
+                    if (text.charAt(i + amountOfElem) != pattern.charAt(amountOfElem)) {
                         break;
+                    }
                 }
                 if (amountOfElem == lenOfPattern) {
-                    System.out.println("Pattern match - index: " + i);
+                    matches.add(i);
                 }
             }
 
@@ -45,7 +56,6 @@ public class RabinKarp {
                 }
             }
         }
-
     }
 
     private void findHashes() {
@@ -56,6 +66,6 @@ public class RabinKarp {
     }
 
     private void hashFunc() {
-        valueOfHashFunc = ((int) Math.pow(asciiChars,lenOfPattern - 1)) % prime;
+        valueOfHashFunc = ((int) Math.pow(asciiChars, lenOfPattern - 1)) % prime;
     }
 }
